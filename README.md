@@ -49,7 +49,7 @@ CONFIG_IP_NF_RAW=m
 CONFIG_IP6_NF_RAW=m
 ```
 
-1. Run the following command, for new modules that weren't in the config file you'll be prompted how to compile. Hit RETURN to accept the defaults for these:
+1. Run the following command, for new modules that weren't in the config file you'll be prompted how to handle those. Hit RETURN to accept the defaults for these, or if they include the modules you're looking for, choose the module option.
 ```
 make oldconfig
 ```
