@@ -14,22 +14,22 @@ sudo apt install build-essential \
                   kmod
 ```
 
-1. Download the Syno Kernel for your platform with:
+1. Download the Syno Kernel for your platform (find yours [here](https://archive.synology.com/download/ToolChain/Synology%20NAS%20GPL%20Source)) and replace the URL:
 ```
 wget --content-disposition https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/apollolake/linux-4.4.x.txz
 ```
 
-1. unzip the kernel source:
+1. unzip the kernel source (replacing the filename with the one you downloaded):
 ```
 xz -d < linux-4.4.x.txz| tar xvf -
 ```
 
-1. Change to the kernel source folder:
+1. Change to the kernel source folder (change the folder name with your kernel version):
 ```
 cd linux-4.4.x
 ```
 
-1. Copy the kernel config for your device / platform to .config in the kernel folder:
+1. Copy the kernel config for your device / platform to .config in the kernel folder. The below example is for apollolake:
 ```
 cp synoconfigs/apollolake .config
 ```
