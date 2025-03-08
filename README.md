@@ -31,7 +31,7 @@ sudo apt install build-essential \
  * `git checkout DSM7.2`
 
 #### 4. Create the chroot for your target
- * `sudo ./EnvDepot -v 7.2 -p apollolake`
+ * `sudo ./EnvDeploy -v 7.2 -p apollolake`
 
 #### 5. Download and install the toolchain for your platform
  * `cd /volume1/synology-toolkit/toolchains`
