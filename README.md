@@ -114,8 +114,15 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 
 #### Using docker (experimental)
 
-`docker build -t compile_modules .`
-`docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake compile_modules`
+I am just using docker now which automates all the above. All you have to pass is the platform name, like `apollolake` or `geminilake`
+
+* `privileged` is only required if the syno toolkit is being used (unsure whether it's entirely necessary) 
+* mapping a volume like the below will automatically pull the created modules out of the build onto the host for publishing.
+
+```
+docker build -t compile_modules .
+docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake compile_modules
+```
 
 ## Other notes
 
