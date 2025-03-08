@@ -1,2 +1,3 @@
 *.txz
 *_linux*/
+build_*/
