@@ -109,3 +109,10 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 ```
 
 #### 20. If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot.
+
+-------------------
+
+#### Using docker (experimental)
+
+docker build -t compile_modules .
+docker run --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake
