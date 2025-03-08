@@ -1,4 +1,8 @@
 I ran the following on WSL2 on Windows 11, using the Debian distro.
+I'll keep modigying these as I learn more. I think some of the steps aren't required but I'm keeping tabs on how to do this and will make sure ultimately there's a minimal set of steps to compile kernel modules.
+
+Find your download URLs [here](https://archive.synology.com/download/ToolChain)
+
 The instructions should be the same however you'll want to pull the correct linux kernel source for your NAS depending on which kernel version you're currently running, and for the appropriate architecture (The below was done for x86. Different options may be needed on `make` commands for compiling for a different `ARCH` )
 
 1. Install packages for running a kernel build:
@@ -14,69 +18,63 @@ sudo apt install build-essential \
                   kmod
 ```
 
-1. Download the Syno Kernel for your platform (find yours [here](https://archive.synology.com/download/ToolChain/Synology%20NAS%20GPL%20Source)) and replace the URL:
-```
-wget --content-disposition https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/apollolake/linux-4.4.x.txz
-```
+1. You will need a build folder that exists on an ext4 partition (not NTFS or FAT)
+ * `mkdir /volume1`
+ * `mkdir /volume1/synology-toolkit`
+ * `mkdir /volume1/synology-toolkit/toolchains`
+ * `cd /volume1/synology-toolkit`
 
-1. unzip the kernel source (replacing the filename with the one you downloaded):
-```
-xz -d < linux-4.4.x.txz| tar xvf -
-```
+1. Clone the toolkit retpo and checkout the DSM version
+ * `git clone https://github.com/SynologyOpenSource/pkgscripts-ng`
+ * `cd pkgscripts-ng`
+ * `git checkout DSM7.2`
+
+1. create the chroot for your target
+ * `sudo ./EnvDepot -v 7.2 -p apollolake`
+
+1. Download and install the toolchain for your platform
+ * `cd /volume1/synology-toolkit/toolchains`
+ * `wget --content-disposition https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc1220_glibc236_x86_64-GPL.txz` (find the URL for your platform)
+ * `sudo tar xJf geminilake-gcc1220_glibc236_x86_64-GPL.txz -C /usr/local/`
+
+1. Download and install the kernel source for your platform
+ * `cd /volume1/synology-toolkit`
+ * `wget --content-disposition https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/apollolake/linux-4.4.x.txz`
+ * `sudo tar -Jxvf ./linux-3.10.x.txz -C /usr/local/x86_64-pc-linux-gnu/`
 
 1. Change to the kernel source folder (change the folder name with your kernel version):
-```
-cd linux-4.4.x
-```
+ * `cd /usr/local/x86_64-pc-linux-gnu/linux-4.4.x`
 
 1. Copy the kernel config for your device / platform to .config in the kernel folder. The below example is for apollolake:
-```
-cp synoconfigs/apollolake .config
-```
+ * `sudo cp synoconfigs/apollolake .config`
 
-1. Edit the file `Makefile` in the kernel source folder, editing the EXTRAVERSTION to add the plus so that the kernel matches the `uname -r` output on the NAS you're compiling for:
-```
-VERSION = 4
-PATCHLEVEL = 4
-SUBLEVEL = 302
-EXTRAVERSION = +
-NAME = Blurry Fish Butt
-```
+1. Edit the file `Makefile` in the kernel source folder, editing the EXTRAVERSTION to add the plus so that the kernel matches the `uname -r` output on the NAS you're compiling for, and editing the `CROSS_COMPILE` and `ARCH` lines.
+ * `EXTRAVERSION = +`
+ * `ARCH            ?= x86_64`
+ * `CROSS_COMPILE   ?= /usr/local/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-`
 
 1. Edit the `.config` file you copied, change modules you want to compile as modules to have `=m` if they were previously `is not set`:
-```
-CONFIG_IP_NF_RAW=m
-CONFIG_IP6_NF_RAW=m
-```
+ * `CONFIG_IP_NF_RAW=m`
+ * `CONFIG_IP6_NF_RAW=m`
 
-1. Run the following command, for new modules that weren't in the config file you'll be prompted how to handle those. Hit RETURN to accept the defaults for these, or if they include the modules you're looking for, choose the module option.
-```
-make oldconfig
-```
+1. Modify the config based on the source:
+ * `sudo make oldconfig` This will prompt you to choose how to build the added modules (just hit ENTER to accept the defaults)
 
 1. Run the following commands:
-```
-make prepare
-make modules_prepare
-```
+ * `sudo make prepare`
+ * `sudo make modules_prepare`
 
 1. Build the modules you're wanting to build (example):
-```
-make M=net/ipv4/netfilter modules
-make M=net/ipv6/netfilter modules
-```
+ * `sudo make M=net/ipv4/netfilter modules`
+ * `sudo make M=net/ipv6/netfilter modules`
+ * (alternatively just build all modules) `sudo make modules`
 
 1. Your modules should now be available in the appropriate folders for copying to your synology. Given the above, they're in:
-```
-net/ipv4/netfilter/iptable_raw.ko
-net/ipv6/netfilter/iptable_raw.ko
-```
+ * `net/ipv4/netfilter/iptable_raw.ko`
+ * `net/ipv6/netfilter/iptable_raw.ko`
 
 1. You can check the details of the mod by running, for example:
-```
-modinfo net/ipv4/netfilter/iptable_raw.ko
-```
-The `vermagic` line has to match the kernel version of your NAS precisely (including the `+` suffix):
+ * `sudo modinfo net/ipv4/netfilter/iptable_raw.ko` - The `vermagic` line has to match the kernel version of your NAS precisely (including the `+` suffix):
 ```
 filename:       net/ipv4/netfilter/iptable_raw.ko
 license:        GPL
