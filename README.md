@@ -124,6 +124,9 @@ I am just using docker now which automates all the above. All you have to pass i
 * `privileged` is only required if the syno toolkit is being used (unsure whether it's entirely necessary) 
 * mapping a volume like the below will automatically pull the created modules out of the build onto the host for publishing.
 
+| :warning: I strongly advise you DO NOT run this in a container on your NAS as is. the toolkit specifically advises against that, and I think given what it does with `/proc` it might not be a great idea |
+| --- |
+
 ```
 docker build -t compile_modules .
 docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake compile_modules
