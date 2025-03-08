@@ -1,8 +1,8 @@
 # Compiling Optional Kernel Modules for Synology
 ## (Primarily motivated by docker v28 requiring iptables_raw modules) - but could be extended and used for other things.
 
-
-### The hard way...
+## The hard way...
+*(hint: skip this and go the [easy way](#using-docker) )*
 
 I ran the following on WSL2 on Windows 11, using the Debian distro.
 
@@ -117,7 +117,7 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 
 -------------------
 
-#### Using docker (experimental)
+## Using Docker
 
 I am just using docker now which automates all the above. All you have to pass is the platform name, like `apollolake` or `geminilake`
 
