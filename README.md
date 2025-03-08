@@ -1,8 +1,10 @@
 # Compiling Optional Kernel Modules for Synology
 ## (Primarily motivated by docker v28 requiring iptables_raw modules) - but could be extended and used for other things.
 
+
+### The hard way...
+
 I ran the following on WSL2 on Windows 11, using the Debian distro.
-I'll keep modigying these as I learn more. I think some of the steps aren't required but I'm keeping tabs on how to do this and will make sure ultimately there's a minimal set of steps to compile kernel modules.
 
 Find your download URLs [here](https://archive.synology.com/download/ToolChain)
 
