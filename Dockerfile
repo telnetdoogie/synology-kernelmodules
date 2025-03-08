@@ -11,11 +11,11 @@ RUN apt install -y build-essential \
                     libproc-processtable-perl \
                     wget \
                     kmod \
-                    jq
-#                    cifs-utils \
-#                    python3 \
-#                    python3-pip \
-#                    python-is-python3
+                    jq \
+                    cifs-utils \
+                    python3 \
+                    python3-pip \
+                    python-is-python3
 
 RUN mkdir /synology-toolkit
 RUN mkdir /synology-toolkit/toolchains

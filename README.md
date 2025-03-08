@@ -114,5 +114,9 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 
 #### Using docker (experimental)
 
-docker build -t compile_modules .
-docker run --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake
+`docker build -t compile_modules .`
+`docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=apollolake compile_modules`
+
+## Other notes
+
+> *I'm not ENTIRELY sure that steps 3 & 4 are necessary. I noticed that when compiling modules for apollolake for example, without going through the process of creating the chroot, the modules compiled and loaded successfully, however when inspecting the compiled modules, some things were slightly different, for example the `march` and `mtune` flags were different. I believe this has something to do with the /proc overrides that happen when you create the dev environment for the toolkit. Not sure if that's critical or not, because both compiled modules worked with or without those flags being changed.*

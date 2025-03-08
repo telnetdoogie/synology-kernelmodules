@@ -26,18 +26,18 @@ echo "PLATFORM is set to: $PLATFORM"
 # read all the values from the platforms file.
 export $(jq -r --arg PLATFORM "$PLATFORM" '.[$PLATFORM] | to_entries | map("SYNO_\(.key)=\(.value)") | .[]' platforms.json)
 
-##------------------------------------------------------
-#
-#echo
-#echo "Setup toolkit..."
-#echo
-#git clone https://github.com/SynologyOpenSource/pkgscripts-ng
-#cd pkgscripts-ng
-#git checkout DSM7.2
-#./EnvDeploy -v 7.2 -p $PLATFORM
-#cd ..
-#
-##------------------------------------------------------
+#------------------------------------------------------
+
+echo
+echo "Setup toolkit..."
+echo
+git clone https://github.com/SynologyOpenSource/pkgscripts-ng
+cd pkgscripts-ng
+git checkout DSM7.2
+./EnvDeploy -v 7.2 -p $PLATFORM
+cd ..
+
+#------------------------------------------------------
 
 echo
 echo "Downloads..."
@@ -116,8 +116,6 @@ jq -r 'to_entries[] | "\(.key) \(.value)"' "/synology-toolkit/config_modificatio
     fi
 done
 
-cat .config | grep CONFIG_IP
-
 #------------------------------------------------------
 echo
 echo "Running make oldconfig..."
@@ -137,13 +135,15 @@ make modules_prepare
 make modules -j$(nproc) KBUILD_MODPOST_NOFINAL=1
 
 # compile the modules needed.
-make M=net/ipv4/netfilter modules
-make M=net/ipv6/netfilter modules
+make -j$(nproc) M=net/ipv4/netfilter modules
+make -j$(nproc) M=net/ipv6/netfilter modules
 
 #------------------------------------------------------
 
-cp net/ipv4/netfilter/iptable_raw.ko /compiled_modules/$SYNO_VERSION.$SYNO_PATCHLEVEL.$SYNO_SUBLEVEL$SYNO_EXTRAVERSION/$PLATFORM/iptable_raw.ko
-cp net/ipv6/netfilter/ip6table_raw.ko /compiled_modules/$SYNO_VERSION.$SYNO_PATCHLEVEL.$SYNO_SUBLEVEL$SYNO_EXTRAVERSION/$PLATFORM/ip6table_raw.ko
+FINAL_FOLDER="/compiled_modules/$SYNO_VERSION.$SYNO_PATCHLEVEL.$SYNO_SUBLEVEL$SYNO_EXTRAVERSION/$PLATFORM"
+mkdir -p $FINAL_FOLDER
+cp net/ipv4/netfilter/iptable_raw.ko $FINAL_FOLDER/iptable_raw.ko
+cp net/ipv6/netfilter/ip6table_raw.ko $FINAL_FOLDER/ip6table_raw.ko
 
-echo "Finished; Copied modules to /compiled_modules/$SYNO_VERSION.$SYNO_PATCHLEVEL.$SYNO_SUBLEVEL$SYNO_EXTRAVERSION/$PLATFORM/"
+echo "Finished; Copied modules to $FINAL_FOLDER/"
 exit 0
