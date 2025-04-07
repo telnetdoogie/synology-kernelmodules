@@ -1,7 +1,7 @@
 {
   "apollolake": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/apollolake/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/apollolake/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -11,7 +11,7 @@
   },
   "broadwell": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.180%20%28Broadwell%29/broadwell-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/broadwell/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/broadwell/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -21,7 +21,7 @@
   },
   "broadwellnk": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28Broadwellnk%29/broadwellnk-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/broadwellnk/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/broadwellnk/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -31,7 +31,7 @@
   },
   "broadwellntbap": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28Broadwellntbap%29/broadwellntbap-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/broadwellntbap/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/broadwellntbap/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -41,7 +41,7 @@
   },
   "denverton": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28Denverton%29/denverton-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/denverton/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/denverton/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -51,7 +51,7 @@
   },
   "geminilake": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28GeminiLake%29/geminilake-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/geminilake/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/geminilake/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -61,7 +61,17 @@
   },
   "purley": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28Purley%29/purley-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/purley/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/purley/linux-4.4.x.txz",
+    "VERSION": "4",
+    "PATCHLEVEL": "4",
+    "SUBLEVEL": "302",
+    "EXTRAVERSION": "+",
+    "ARCH" : "x86_64",
+    "CROSS_COMPILE" : "/usr/local/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-"
+  },
+  "r1000": {
+    "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/AMD%20x86%20Linux%204.4.302%20%28r1000%29/r1000-gcc1220_glibc236_x86_64-GPL.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/r1000/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
@@ -71,7 +81,7 @@
   },
   "v1000": {
     "toolchain": "https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.302%20%28V1000%29/v1000-gcc1220_glibc236_x86_64-GPL.txz",
-    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/v1000/linux-4.4.x.txz",
+    "kernel": "https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-72806/v1000/linux-4.4.x.txz",
     "VERSION": "4",
     "PATCHLEVEL": "4",
     "SUBLEVEL": "302",
