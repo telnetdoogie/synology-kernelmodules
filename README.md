@@ -121,7 +121,6 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 
 I am just using docker now which automates all the above. All you have to pass is the platform name, like `apollolake` or `geminilake`
 
-* `privileged` is only required if the syno toolkit is being used (unsure whether it's entirely necessary) 
 * mapping a volume like the below will automatically pull the created modules out of the build onto the host for publishing.
 
 | :warning: I strongly advise you DO NOT run this in a container on your NAS as the host. The toolkit specifically advises against that, and I think given what it does with `/proc` it might not be a great idea. |
@@ -134,4 +133,4 @@ docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATF
 
 ## Other notes
 
-> *I'm not ENTIRELY sure that steps 3 & 4 are necessary. I noticed that when compiling modules for apollolake for example, without going through the process of creating the chroot, the modules compiled and loaded successfully, however when inspecting the compiled modules, some things were slightly different, for example the `march` and `mtune` flags were different. I believe this has something to do with the /proc overrides that happen when you create the dev environment for the toolkit. Not sure if that's critical or not, because both compiled modules worked with or without those flags being changed.*
+> *~~I'm not ENTIRELY sure that steps 3 & 4 are necessary. I noticed that when compiling modules for apollolake for example, without going through the process of creating the chroot, the modules compiled and loaded successfully, however when inspecting the compiled modules, some things were slightly different, for example the `march` and `mtune` flags were different. I believe this has something to do with the /proc overrides that happen when you create the dev environment for the toolkit. Not sure if that's critical or not, because both compiled modules worked with or without those flags being changed.~~*
