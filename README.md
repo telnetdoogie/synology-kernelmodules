@@ -99,8 +99,8 @@ sudo chmod 644 /lib/modules/{iptable_raw.ko,ip6table_raw.ko}
 
 #### 18. Load the modules:
 ```
-sudo insmod /lib/modules/ip6table_raw
-sudo insmod /lib/modules/iptable_raw
+sudo insmod /lib/modules/ip6table_raw.ko
+sudo insmod /lib/modules/iptable_raw.ko
 ```
 
 #### 19. Assuming you received no errors, validate they're loaded:
