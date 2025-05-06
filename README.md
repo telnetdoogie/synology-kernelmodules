@@ -41,7 +41,7 @@ sudo apt install build-essential \
 #### 5. Download and install the toolchain for your platform
  * `cd /volume1/synology-toolkit/toolchains`
  * `wget --content-disposition https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc1220_glibc236_x86_64-GPL.txz` (find the URL for your platform)
- * `sudo tar xJf geminilake-gcc1220_glibc236_x86_64-GPL.txz -C /usr/local/`
+ * `sudo tar xJf apollolake-gcc1220_glibc236_x86_64-GPL.txz -C /usr/local/`
 
 #### 6. Download and install the kernel source for your platform
  * `cd /volume1/synology-toolkit`
