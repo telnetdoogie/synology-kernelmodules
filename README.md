@@ -46,7 +46,7 @@ sudo apt install build-essential \
 #### 6. Download and install the kernel source for your platform
  * `cd /volume1/synology-toolkit`
  * `wget --content-disposition https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/apollolake/linux-4.4.x.txz`
- * `sudo tar -Jxvf ./linux-3.10.x.txz -C /usr/local/x86_64-pc-linux-gnu/`
+ * `sudo tar -Jxvf ./linux-4.4.x.txz -C /usr/local/x86_64-pc-linux-gnu/`
 
 #### 7. Change to the kernel source folder (change the folder name with your kernel version):
  * `cd /usr/local/x86_64-pc-linux-gnu/linux-4.4.x`
