@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Check for platform ENV variable
 if [ -z "$PLATFORM" ]; then
@@ -29,46 +30,36 @@ export $(jq -r --arg PLATFORM "$PLATFORM" '.[$PLATFORM] | to_entries | map("SYNO
 #------------------------------------------------------
 
 echo
-echo "Setup toolkit..."
-echo
-git clone https://github.com/SynologyOpenSource/pkgscripts-ng
-cd pkgscripts-ng
-git checkout DSM7.2
-./EnvDeploy -v 7.2 -p $PLATFORM
-cd ..
-
-#------------------------------------------------------
-
-echo
 echo "Downloads..."
 echo
-#download toolkit
-echo "Downloading toolchain for $PLATFORM"
-toolchain_fn=$(basename "$SYNO_toolchain")
-curl --progress-bar -L -o "$toolchain_fn" "$SYNO_toolchain"
-toolchain_folder=$(tar -Jtf "${toolchain_fn}" | cut -d/ -f1 | uniq | head -n 1)
-echo "Downloaded toolchain: $toolchain_fn"
-echo "Archive top-level folder name: $toolchain_folder"
 
 #download kernel
-echo "Downloading kernel source for $PLATFORM"
 kernel_fn=$(basename "$SYNO_kernel")
-curl --progress-bar -L -o "$kernel_fn" "$SYNO_kernel"
-kernel_folder=$(tar -Jtf "${kernel_fn}" | cut -d/ -f1 | uniq | head -n 1)
-echo "Downloaded kernel source: $kernel_fn"
-echo "Archive top-level-folder name: $kernel_folder"
+kernel_sources="/kernel_source/$PLATFORM"
+kernel_archive="$kernel_sources/$kernel_fn"
 
+if [ ! -f "$kernel_archive" ]; then
+  echo "Downloading kernel source for $PLATFORM"
+  mkdir -p "$kernel_sources"
+  curl --progress-bar -L -o "$kernel_archive" "$SYNO_kernel"
+  echo "Downloaded kernel source: $kernel_archive"
+else
+  echo "$kernel_archive already exists, skipping download."
+fi
+
+kernel_folder=$(tar -Jtf "${kernel_archive}" | cut -d/ -f1 | uniq | head -n 1)
+echo "Archive top-level-folder name: $kernel_folder"
 
 #------------------------------------------------------
 
 echo
 echo "Installs..."
 echo
-# install toolchain
-tar -Jxvf ./${toolchain_fn} -C /usr/local/
 
 # install kernel
-tar -Jxvf ./${kernel_fn} -C /usr/local/$toolchain_folder/
+toolchain_folder=`cat /toolchain_folder`
+tar --skip-old-files -Jxvf "${kernel_archive}" -C "$kernel_sources"
+ln --force --symbolic $kernel_sources/$kernel_folder $toolchain_folder/$kernel_folder
 
 #------------------------------------------------------
 
@@ -78,7 +69,7 @@ echo
 
 # copy the kernel config for the platform
 echo "Moving $PLATFORM config to .config"
-cd /usr/local/$toolchain_folder/$kernel_folder
+cd $toolchain_folder/$kernel_folder
 cp synoconfigs/$PLATFORM .config
 
 echo "Modifying Makefile"
