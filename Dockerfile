@@ -24,6 +24,7 @@ WORKDIR /synology-toolkit
 COPY platforms.json .
 COPY entrypoint.sh .
 COPY config_modification.json .
+COPY apply_patches.sh .
 
 ENV PLATFORM=""
 

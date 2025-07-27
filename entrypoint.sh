@@ -125,6 +125,15 @@ yes "" | make oldconfig
 
 #------------------------------------------------------
 
+#------------------------------------------------------
+echo
+echo "Applying any patching..."
+echo
+
+/synology-toolkit/apply_patches.sh
+
+#------------------------------------------------------
+
 echo
 echo "Compiling modules..."
 echo
@@ -137,6 +146,7 @@ make modules -j$(nproc) KBUILD_MODPOST_NOFINAL=1
 # compile the modules needed.
 make -j$(nproc) M=net/ipv4/netfilter modules
 make -j$(nproc) M=net/ipv6/netfilter modules
+make -j$(nproc) M=fs/overlayfs modules
 
 #------------------------------------------------------
 
@@ -144,6 +154,7 @@ FINAL_FOLDER="/compiled_modules/$SYNO_VERSION.$SYNO_PATCHLEVEL.$SYNO_SUBLEVEL$SY
 mkdir -p $FINAL_FOLDER
 cp net/ipv4/netfilter/iptable_raw.ko $FINAL_FOLDER/iptable_raw.ko
 cp net/ipv6/netfilter/ip6table_raw.ko $FINAL_FOLDER/ip6table_raw.ko
+cp fs/overlayfs/overlay.ko $FINAL_FOLDER/overlay.ko
 
 echo "Finished; Copied modules to $FINAL_FOLDER/"
 exit 0
