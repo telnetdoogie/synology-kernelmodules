@@ -125,6 +125,15 @@ yes "" | make oldconfig
 
 #------------------------------------------------------
 
+#------------------------------------------------------
+echo
+echo "Applying any patching..."
+echo
+
+/synology-toolkit/apply_patches.sh
+
+#------------------------------------------------------
+
 echo
 echo "Compiling modules..."
 echo
