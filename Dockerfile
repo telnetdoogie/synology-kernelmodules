@@ -1,21 +1,37 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
-RUN apt install -y build-essential \
-                    ncurses-dev \
-                    bc \
-                    git \
-                    libssl-dev \
-                    libc6-i386 \
-                    curl \
-                    libproc-processtable-perl \
-                    wget \
-                    kmod \
-                    jq \
-                    cifs-utils \
-                    python3 \
-                    python3-pip \
-                    python-is-python3
+RUN apt-get install -y \
+    build-essential \
+    gcc-10 \
+    g++-10 \
+    ncurses-dev \
+    bc \
+    git \
+    libssl-dev \
+    libc6-i386 \
+    libncurses-dev \
+    libelf-dev \
+    curl \
+    libproc-processtable-perl \
+    wget \
+    kmod \
+    jq \
+    cifs-utils \
+    python3 \
+    python3-pip \
+    python-is-python3 \
+    flex \
+    bison \
+    pkg-config \
+    perl \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100 \
+ && rm -rf /var/lib/apt/lists/*                    
+
+ENV HOSTCFLAGS="-Wno-error"
 
 RUN mkdir /synology-toolkit
 RUN mkdir /synology-toolkit/toolchains

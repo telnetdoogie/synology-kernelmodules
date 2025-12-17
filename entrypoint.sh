@@ -78,8 +78,16 @@ echo
 
 # copy the kernel config for the platform
 echo "Moving $PLATFORM config to .config"
-cd /usr/local/$toolchain_folder/$kernel_folder
-cp synoconfigs/$PLATFORM .config
+
+if [ "$SYNO_VERSION" = "5" ]; then
+	echo "copying config for Kernel v5.x..."
+	cd /usr/local/$toolchain_folder/$kernel_folder
+	cp synology/synoconfigs/$PLATFORM .config
+else
+	echo "copying config for Kernel v4.x..."
+	cd /usr/local/$toolchain_folder/$kernel_folder
+	cp synoconfigs/$PLATFORM .config
+fi
 
 echo "Modifying Makefile"
 #replace values in Makefile
