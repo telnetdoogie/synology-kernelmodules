@@ -41,6 +41,7 @@ COPY platforms.json .
 COPY entrypoint.sh .
 COPY config_modification.json .
 COPY apply_patches.sh .
+RUN chmod +x apply_patches.sh entrypoint.sh
 
 ENV PLATFORM=""
 
