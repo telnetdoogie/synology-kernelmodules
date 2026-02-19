@@ -84,10 +84,31 @@ if [ "$SYNO_VERSION" = "5" ]; then
 	cd /usr/local/$toolchain_folder/$kernel_folder
 	cp synology/synoconfigs/$PLATFORM .config
 else
-	echo "copying config for Kernel v4.x..."
+	echo "copying config for Kernel v4 or below..."
 	cd /usr/local/$toolchain_folder/$kernel_folder
 	cp synoconfigs/$PLATFORM .config
 fi
+
+if [ "$SYNO_VERSION" = "3" ]; then
+    echo "Using gcc-9 for Linux 3.x"
+
+    export CC=gcc-9
+    export HOSTCC=gcc-9
+    export HOSTCXX=g++-9
+    export CXX=g++-9
+
+    # Critical for 3.10
+    export KCFLAGS="-fcommon"
+    export HOSTCFLAGS="-fcommon"
+
+    echo "Injecting -fcommon into kernel Makefile for 3.x"
+
+    sed -i 's/^HOSTCFLAGS *=.*/& -fcommon/' Makefile
+    sed -i 's/^KBUILD_CFLAGS *=.*/& -fcommon/' Makefile
+
+    sed -i 's/CONFIG_RETPOLINE=y/CONFIG_RETPOLINE=n/' .config || true
+fi
+
 
 echo "Modifying Makefile"
 #replace values in Makefile

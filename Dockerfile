@@ -7,6 +7,8 @@ RUN apt-get install -y \
     build-essential \
     gcc-10 \
     g++-10 \
+    gcc-9 \
+    g++-9 \
     ncurses-dev \
     bc \
     git \
