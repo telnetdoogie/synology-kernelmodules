@@ -26,6 +26,32 @@ echo "PLATFORM is set to: $PLATFORM"
 # read all the values from the platforms file.
 export $(jq -r --arg PLATFORM "$PLATFORM" '.[$PLATFORM] | to_entries | map("SYNO_\(.key)=\(.value)") | .[]' platforms.json)
 
+
+# check we're running the correct image
+if [ "$SYNO_VERSION" = "3" ]; then
+    if [ "$IMAGE_TYPE" = "standard" ]; then
+        echo
+        echo "Running on [$IMAGE_TYPE] Docker Image"
+        echo "Error: You need to use the LEGACY docker image for compiling on 3.x kernels"
+        echo "re-build the image using the Dockerfile_legacy Dockerfile."
+        echo "  docker build --no-cache -t compile_legacy_modules -f ./Dockerfile_legacy . "
+        echo
+        echo "then compile with the compile_legacy_modules image instead"
+        echo
+        exit 1
+    fi
+elif [ "$IMAGE_TYPE" = "legacy" ]; then
+         echo
+         echo "Running on [$IMAGE_TYPE] Docker Image"
+         echo "Error: You need to use the STANDARD docker image for compiling on kernels other than 3.x"
+         echo "re-build the image using the regular Dockerfile."
+         echo "  docker build --no-cache -t compile_modules . "
+         echo
+         echo "then compile with the compile_modules image instead"
+         echo
+         exit 1
+fi
+
 #------------------------------------------------------
 
 echo
@@ -90,21 +116,14 @@ else
 fi
 
 if [ "$SYNO_VERSION" = "3" ]; then
-    echo "Using gcc-9 for Linux 3.x"
+    echo "Using Synology cross toolchain for Linux 3.x"
 
-    export CC=gcc
-    export HOSTCC=gcc
-    export HOSTCXX=g++
-    export CXX=g++
+    export CROSS_COMPILE="$SYNO_CROSS_COMPILE"
+    export ARCH="$SYNO_ARCH"
 
-    # Critical for 3.10
-    export KCFLAGS="-fcommon"
-    export HOSTCFLAGS="-fcommon"
-
-    echo "Injecting -fcommon into kernel Makefile for 3.x"
-
-    sed -i 's/^HOSTCFLAGS *=.*/& -fcommon/' Makefile
-    sed -i 's/^KBUILD_CFLAGS *=.*/& -fcommon/' Makefile
+    # critical for old Synology kernels
+    export KCFLAGS="-fno-pic -fno-pie -fno-stack-protector -fcommon"
+    export HOSTCFLAGS="-fno-pie -fcommon"
 
     sed -i 's/CONFIG_RETPOLINE=y/CONFIG_RETPOLINE=n/' .config || true
 fi
@@ -149,6 +168,9 @@ done
 echo
 echo "Running make oldconfig..."
 echo
+
+echo "Compiler:"
+"${CROSS_COMPILE}gcc" --version || exit 1
 
 yes "" | make oldconfig
 

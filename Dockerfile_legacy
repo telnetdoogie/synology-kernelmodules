@@ -3,6 +3,7 @@ FROM centos:7
 ENV TERM=xterm
 ENV PLATFORM=""
 ENV TAR_OPTIONS="--warning=no-timestamp"
+ENV IMAGE_TYPE="legacy"
 
 # Fix repos since CentOS 7 is EOL
 RUN rm -f /etc/yum.repos.d/*.repo && \

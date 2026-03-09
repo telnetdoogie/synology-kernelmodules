@@ -46,5 +46,6 @@ COPY apply_patches.sh .
 RUN chmod +x apply_patches.sh entrypoint.sh
 
 ENV PLATFORM=""
+ENV IMAGE_TYPE="standard"
 
 ENTRYPOINT ["/synology-toolkit/entrypoint.sh"]
