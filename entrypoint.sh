@@ -59,8 +59,8 @@ echo "Setup toolkit..."
 echo
 git clone https://github.com/SynologyOpenSource/pkgscripts-ng
 cd pkgscripts-ng
-git checkout DSM7.2
-./EnvDeploy -v 7.2 -p $PLATFORM
+git checkout DSM7.3
+./EnvDeploy -v 7.3 -p $PLATFORM
 cd ..
 
 #------------------------------------------------------
@@ -121,9 +121,12 @@ if [ "$SYNO_VERSION" = "3" ]; then
     export CROSS_COMPILE="$SYNO_CROSS_COMPILE"
     export ARCH="$SYNO_ARCH"
 
-    # critical for old Synology kernels
-    export KCFLAGS="-fno-pic -fno-pie -fno-stack-protector -fcommon"
-    export HOSTCFLAGS="-fno-pie -fcommon"
+    # Ensure kernel uses cross compiler
+    export CC="${CROSS_COMPILE}gcc"
+
+    # avoid PLT relocations on gcc12
+    export KCFLAGS="-fno-plt -fno-pic -fno-pie -mcmodel=kernel -mno-red-zone -fno-stack-protector"
+    export HOSTCFLAGS="-fno-plt -fno-pie"
 
     sed -i 's/CONFIG_RETPOLINE=y/CONFIG_RETPOLINE=n/' .config || true
 fi
