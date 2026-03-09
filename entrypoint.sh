@@ -92,10 +92,10 @@ fi
 if [ "$SYNO_VERSION" = "3" ]; then
     echo "Using gcc-9 for Linux 3.x"
 
-    export CC=gcc-9
-    export HOSTCC=gcc-9
-    export HOSTCXX=g++-9
-    export CXX=g++-9
+    export CC=gcc
+    export HOSTCC=gcc
+    export HOSTCXX=g++
+    export CXX=g++
 
     # Critical for 3.10
     export KCFLAGS="-fcommon"
@@ -170,7 +170,7 @@ echo
 make prepare
 make modules_prepare
 # do not fully compile; generate Module.symvers
-make modules -j$(nproc) KBUILD_MODPOST_NOFINAL=1
+# make modules -j$(nproc) KBUILD_MODPOST_NOFINAL=1
 
 # compile the modules needed.
 make -j$(nproc) M=net/ipv4/netfilter modules
