@@ -27,27 +27,6 @@ docker build -t compile_modules_legacy ./Dockerfile_legacy
 docker run --privileged --rm -v ./compiled_modules:/compiled_modules:rw -e PLATFORM=avoton compile_modules_legacy
 ```
 
-
----
-
-
-## If you want to modify this...
-
-`entrypoint.sh` is where everything happens. If you include additional files be sure to modify the Dockerfile to copy them into the container on build.
-Currently, `entrypoint.sh` reads the `PLATFORM` value that's passed in, and uses that to set up the DSM toolchain which downloads the cross-compiler and sets the environment up for build.
-
-`apply_patches.sh` gets called from `entrypoint.sh` before compilation, in case any modifications are needed to config or source.
-
-Once module compilations are complete, compiled modules are copied out to the `/compiled_modules` folder
-
-So... if you want to make significant changes to this, `entrypoint.sh` is the place to start. 
-
-The way this is set up currently (the way I run it, with `--rm`) the container is stateless so DSM toolchain downloads etc happen anew each time.
-
-Happy tinkering!
-
----
-
 #### Once run for your platform, your modules should be available in the appropriate folders for copying to your synology. Given the above setup, they're in (for example):
  * `compiled_modules/4.4.302+/apollolake/iptable_raw.ko`
  * `compiled_modules/4.4.302+/apollolake/ip6table_raw.ko`
@@ -89,4 +68,22 @@ x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_r
 #### If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot, or add to a service that is loading modules on startup.
 
 
-#### 20. If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot.
+---
+
+
+## If you want to modify this...
+
+`entrypoint.sh` is where everything happens. If you include additional files be sure to modify the Dockerfile to copy them into the container on build.
+Currently, `entrypoint.sh` reads the `PLATFORM` value that's passed in, and uses that to set up the DSM toolchain which downloads the cross-compiler and sets the environment up for build.
+
+`apply_patches.sh` gets called from `entrypoint.sh` before compilation, in case any modifications are needed to config or source.
+
+Once module compilations are complete, compiled modules are copied out to the `/compiled_modules` folder
+
+So... if you want to make significant changes to this, `entrypoint.sh` is the place to start. 
+
+The way this is set up currently (the way I run it, with `--rm`) the container is stateless so DSM toolchain downloads etc happen anew each time.
+
+Happy tinkering! PRs welcome!
+
+
