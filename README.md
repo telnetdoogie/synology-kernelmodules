@@ -48,11 +48,11 @@ Happy tinkering!
 
 ---
 
-#### 14. Once run for your platform, your modules should be available in the appropriate folders for copying to your synology. Given the above setup, they're in (for example):
+#### Once run for your platform, your modules should be available in the appropriate folders for copying to your synology. Given the above setup, they're in (for example):
  * `compiled_modules/4.4.302+/apollolake/iptable_raw.ko`
  * `compiled_modules/4.4.302+/apollolake/ip6table_raw.ko`
 
-#### 15. If you're on a linux box or have WSL, you can check the details of the mod by running, for example:
+#### If you're on a linux box or have WSL, you can check the details of the mod by running, for example:
  * `sudo modinfo net/ipv4/netfilter/iptable_raw.ko` - The `vermagic` line has to match the kernel version of your NAS precisely (including the `+` suffix):
 ```
 filename:       net/ipv4/netfilter/iptable_raw.ko
@@ -62,21 +62,21 @@ retpoline:      Y
 vermagic:       4.4.302+ SMP mod_unload
 ```
 
-#### 1. You can now copy these files to your NAS in `/lib/modules`
+#### You can now copy these files to your NAS in `/lib/modules`
 
-#### 17. Change the permissions and ownership of the new `.ko` files on the NAS:
+#### Change the permissions and ownership of the new `.ko` files on the NAS:
 ```
 sudo chown root:root /lib/modules/{iptable_raw.ko,ip6table_raw.ko}
 sudo chmod 644 /lib/modules/{iptable_raw.ko,ip6table_raw.ko}
 ```
 
-#### 18. Load the modules one time:
+#### Load the modules one time:
 ```
 sudo insmod /lib/modules/ip6table_raw.ko
 sudo insmod /lib/modules/iptable_raw.ko
 ```
 
-#### 19. Assuming you received no errors, validate they're loaded:
+#### Assuming you received no errors, validate they're loaded:
 ```
 $ sudo lsmod | grep raw
 iptable_raw             1452  0
@@ -86,7 +86,7 @@ ip_tables              14342  4 iptable_filter,iptable_mangle,iptable_nat,iptabl
 x_tables               17395  24 ip6table_filter,xt_ipvs,xt_iprange,xt_mark,xt_recent,ip_tables,xt_tcpudp,ipt_MASQUERADE,xt_geoip,xt_limit,xt_state,xt_conntrack,xt_LOG,xt_mac,xt_nat,xt_set,xt_multiport,iptable_filter,ip6table_raw,xt_REDIRECT,iptable_mangle,ip6_tables,xt_addrtype,iptable_raw
 ```
 
-#### 20. If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot, or add to a service that is loading modules on startup.
+#### If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot, or add to a service that is loading modules on startup.
 
 
 #### 20. If you want to load the libraries on startup, add the `insmod` lines from above to a Scheduled Task, running as `root` on boot.
